@@ -1,2 +1,40 @@
 <app-header headerText="Dashboard"></app-header>
-<p>dashboard works!</p>
+
+<div class="wrapper">
+  <form [formGroup]="filterForm" class="filter-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Select Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </form>
+
+  <div class="dashboard-stats">
+    <mat-card>
+      <mat-card-title>Total Cars Parked</mat-card-title>
+      <mat-card-content>{{ totalCarsParked }}</mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-title>Total Empty Slots</mat-card-title>
+      <mat-card-content>{{ totalEmptySlots }}</mat-card-content>
+    </mat-card>
+
+    <mat-card *ngFor="let type of ['Microbus', 'Car', 'Truck']">
+      <mat-card-title>{{ type }}</mat-card-title>
+      <mat-card-content>{{ vehicleTypesCount[type] }}</mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-title>Vehicles Parked for More Than Two Hours</mat-card-title>
+      <mat-card-content>
+        <ul>
+          <li *ngFor="let vehicle of vehiclesOverTwoHours">
+            {{ vehicle.licenseNumber }} - {{ vehicle.vehicleType }}
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
