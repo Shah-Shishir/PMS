@@ -362,6 +362,13 @@ body {
   font-size: 12px;
 }
 
-.mat-calendar, .time-container {
+.mat-calendar,
+.time-container {
   background-color: #eaeaea;
+}
+
+.mat-calendar-body-active {
+  background: green !important;
+  color: white;
+  border-radius: 50%;
 }

@@ -7,11 +7,12 @@ import { routes } from './app.routes';
 
 // Date
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
-    importProvidersFrom(MatNativeDateModule),
+    importProvidersFrom(MatNativeDateModule, NgxMatNativeDateModule),
   ],
 };

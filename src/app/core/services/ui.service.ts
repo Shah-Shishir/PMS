@@ -19,7 +19,7 @@ export class UiService {
     data?: any,
     width?: string,
     height?: string,
-    disableClose: boolean = true
+    disableClose: boolean = false
   ) {
     this.dialogRef = this.dialog.open(component, {
       width,

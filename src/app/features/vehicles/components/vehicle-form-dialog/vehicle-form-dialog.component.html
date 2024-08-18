@@ -1,0 +1,88 @@
+<h2 mat-dialog-title>Add Info</h2>
+<mat-dialog-content>
+  <form [formGroup]="vehicleService.vehicleForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Vehicle License Number</mat-label>
+      <input matInput formControlName="licenseNumber" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Vehicle Type</mat-label>
+      <mat-select formControlName="vehicleType" (ngModelChange)="onVehicleTypeChange()">
+        @for (el of vehicleTypes; track el) {
+        <mat-option class="example-radio-button" [value]="el.type">{{
+          el.type
+        }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Vehicle Owner Name</mat-label>
+      <input matInput formControlName="ownerName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Vehicle Owner Phone</mat-label>
+      <input type="tel" matInput formControlName="ownerPhone" />
+    </mat-form-field>
+
+    <label id="parking-status">Parking Status</label>
+    <mat-radio-group aria-labelledby="parking-status" formControlName="status">
+      <mat-label></mat-label>
+
+      @for (status of statusOptions; track status) {
+      <mat-radio-button [value]="status.value">{{ status.label }}</mat-radio-button>
+      }
+    </mat-radio-group>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Car Owner Address</mat-label>
+      <textarea matInput formControlName="ownerAddress"></textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        [ngxMatDatetimePicker]="entryPicker"
+        placeholder="Time and Date of Car Entry"
+        formControlName="entryDateTime"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        (click)="entryPicker.open()"
+      ></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #entryPicker> </ngx-mat-datetime-picker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        [ngxMatDatetimePicker]="exitPicker"
+        placeholder="Time and Date of Car Exit"
+        formControlName="exitDateTime"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        (click)="exitPicker.open()"
+      ></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #exitPicker> </ngx-mat-datetime-picker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Parking Charge</mat-label>
+      <input matInput formControlName="parkingCharge" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    (click)="onSubmit()"
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="!vehicleService.vehicleForm.valid"
+  >
+    Submit
+  </button>
+</mat-dialog-actions>

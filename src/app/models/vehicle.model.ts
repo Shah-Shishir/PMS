@@ -2,7 +2,7 @@ export type VehicleType = 'Microbus' | 'Car' | 'Truck';
 export type Status = 'in' | 'out';
 
 export interface Vehicle {
-    id?: number;
+    id: number;
     licenseNumber: string;
     vehicleType: VehicleType;
     ownerName: string;
