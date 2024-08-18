@@ -1,0 +1,153 @@
+<div class="education-section">
+  <mat-card>
+    <mat-card-header class="title-section">
+      <mat-card-title>
+        <div>{{ isEducation() ? "Education" : "Work Experience" }}</div>
+      </mat-card-title>
+      <div
+        class="pointer"
+        (click)="openEducationAddUpdateDialog(institutionTypes.SCHOOL, true)"
+      >
+        <mat-icon
+          [matTooltip]="isEducation() ? 'Add Education' : 'Add Work Experience'"
+          >add</mat-icon
+        >
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      @if (isEducation()) {
+      <div>
+        @for (school of profileService.profile.educationalHistory?.schools;
+        track school.startDate; let index = $index;) {
+        <div class="item">
+          <div>
+            <div>
+              {{ school.isCurrent ? "Studies" : "Studied" }}
+              <b>{{ school.group }}</b> at
+              <b>{{ school.institutionName }}</b>
+            </div>
+            <div>
+              <i>{{ school.description }}</i>
+            </div>
+          </div>
+          <div class="actions">
+            <mat-icon
+              matTooltip="Edit School"
+              (click)="
+                editEducationalDetail(institutionTypes.SCHOOL, school, index)
+              "
+              >edit</mat-icon
+            >
+            <mat-icon
+              matTooltip="Delete School"
+              (click)="deleteEducationalDetail(institutionTypes.SCHOOL, index)"
+              >delete</mat-icon
+            >
+          </div>
+        </div>
+        }
+      </div>
+      <div>
+        @for (college of profileService.profile.educationalHistory?.colleges;
+        track college.startDate; let index = $index;) {
+        <div class="item">
+          <div>
+            <div>
+              {{ college.isCurrent ? "Studies" : "Studied" }}
+              <b>{{ college.group }}</b> at
+              <b>{{ college.institutionName }}</b>
+            </div>
+            <div>
+              <i>{{ college.description }}</i>
+            </div>
+          </div>
+          <div class="actions">
+            <mat-icon
+              matTooltip="Edit College"
+              (click)="
+                editEducationalDetail(institutionTypes.COLLEGE, college, index)
+              "
+              >edit</mat-icon
+            >
+            <mat-icon
+              matTooltip="Delete College"
+              (click)="deleteEducationalDetail(institutionTypes.COLLEGE, index)"
+              >delete</mat-icon
+            >
+          </div>
+        </div>
+        }
+      </div>
+      <div>
+        @for (university of
+        profileService.profile.educationalHistory?.universities; track
+        university.startDate; let index = $index;) {
+        <div class="item">
+          <div>
+            <div>
+              {{ university.isCurrent ? "Studies" : "Studied" }}
+              <b>{{ university.degree }}</b> in
+              <b>{{ university.fieldOfStudy }}</b> at
+              <b>{{ university.institutionName }}</b>
+            </div>
+            <div>
+              <i>{{ university.description }}</i>
+            </div>
+          </div>
+          <div class="actions">
+            <mat-icon
+              matTooltip="Edit University"
+              (click)="
+                editEducationalDetail(
+                  institutionTypes.UNIVERSITY,
+                  university,
+                  index
+                )
+              "
+              >edit</mat-icon
+            >
+            <mat-icon
+              matTooltip="Delete University"
+              (click)="
+                deleteEducationalDetail(institutionTypes.UNIVERSITY, index)
+              "
+              >delete</mat-icon
+            >
+          </div>
+        </div>
+        }
+      </div>
+      } @else {
+      <div>
+        @for (data of profileService.profile.workExperiences; track
+        data.startDate; let index = $index;) {
+        <div class="item">
+          <div>
+            <div>
+              {{ data.isCurrent ? "" : "Former" }}
+              <b>{{ data.designation }}</b> at
+              <b>{{ data.companyName }}</b>
+            </div>
+            <div>
+              {{ data.description }}
+            </div>
+          </div>
+          <div class="actions">
+            <mat-icon
+              matTooltip="Edit Experience"
+              (click)="editWorkExperience(data, index)"
+              >edit</mat-icon
+            >
+            <mat-icon
+              matTooltip="Delete Experience"
+              (click)="deleteWorkExperience(index)"
+              >delete</mat-icon
+            >
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,83 @@
+.bio {
+  .bio-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    mat-icon {
+      transition: 0.4s;
+      cursor: pointer;
+      visibility: hidden;
+    }
+
+    &:hover {
+      mat-icon {
+        animation: fadeIn ease-in-out 1s;
+        visibility: visible;
+      }
+    }
+  }
+
+  .bio-form {
+    margin-block: 10px;
+
+    textarea {
+      width: 100%;
+      border: 1px solid #eaeaea;
+      border-radius: 5px;
+      padding: 12px;
+      color: #444;
+      resize: none;
+      line-height: 25px;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      letter-spacing: 1px;
+
+      &:focus,
+      &:hover {
+        border: 1px solid #eaeaea;
+      }
+    }
+
+    .length-indicator {
+      color: #444;
+      margin-top: 10px;
+      text-align: right;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 15px;
+
+      .mdc-button {
+        height: 30px;
+        /* width: 64px; */
+        font-size: 13px;
+      }
+    }
+  }
+
+  .add-bio {
+    font-style: italic;
+    color: grey;
+    margin-block: 10px;
+    cursor: pointer;
+  }
+}
+
+mat-card-title {
+  font-size: 16px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

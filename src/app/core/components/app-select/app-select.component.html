@@ -1,0 +1,17 @@
+<div [formGroup]="formService.form">
+  <mat-form-field
+    class="w-100"
+    appearance="outline"
+    floatLabel="always"
+  >
+    <mat-label>
+      {{ field().label }}
+    </mat-label>
+    <mat-select [formControlName]="field().name">
+      @for (option of field().values; track option.id) {
+      <mat-option [value]="option.id">{{ option.label }}</mat-option>
+      }
+    </mat-select>
+    <mat-error [innerHTML]="formService.formErrors[field().name]"></mat-error>
+  </mat-form-field>
+</div>

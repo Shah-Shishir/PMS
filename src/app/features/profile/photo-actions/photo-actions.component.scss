@@ -1,0 +1,23 @@
+.actions {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+
+  mat-icon {
+    transition: 0.4s;
+
+    &:hover {
+      color: #fff;
+    }
+
+    &.disabled {
+      color: grey;
+      cursor: text;
+      pointer-events: none;
+      user-select: none;
+    }
+  }
+}

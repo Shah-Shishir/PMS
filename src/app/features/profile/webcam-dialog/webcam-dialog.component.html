@@ -1,0 +1,97 @@
+<h2 mat-dialog-title>Take a photo</h2>
+
+<mat-dialog-content>
+  @if (service.showWebCam) {
+  <webcam
+    class="mb-10px"
+    [height]="500"
+    [width]="500"
+    [trigger]="service.triggerObservable"
+    (imageCapture)="service.handleImage($event)"
+    [imageQuality]="1"
+  ></webcam>
+  } @else { @if (service.showImageCropper) {
+  <image-cropper
+    class="mb-10px h-375px w-500px"
+    [imageFile]="service.imageFile"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 3"
+    [imageQuality]="100"
+    (imageCropped)="service.imageCropped($event)"
+  >
+  </image-cropper>
+  } @else {
+  <div
+    class="captured-image-section"
+    [ngStyle]="{
+      'background-image': 'url(' + service.imageDataUrl + ')'
+    }"
+  ></div>
+  } } @if (service.showWebCamOptions) { @if (service.showWebCam) {
+  <div class="flex justify-content-center">
+    <button mat-flat-button color="accent" (click)="service.triggerSnapshot()">
+      Capture Image
+    </button>
+  </div>
+  } @else {
+  <div class="flex justify-content-center gap-10px">
+    @if (!service.showImageCropper) {
+    <button
+      mat-flat-button
+      color="accent"
+      (click)="service.openImageCropper()"
+      [disabled]="profileService.savingProfilePhoto"
+    >
+      Crop
+    </button>
+    }
+
+    <button
+      mat-flat-button
+      color="accent"
+      (click)="service.switchCamera()"
+      [disabled]="profileService.savingProfilePhoto"
+    >
+      Switch Camera
+    </button>
+
+    @if (service.showImageCropper) {
+    <button
+      mat-flat-button
+      color="accent"
+      (click)="service.cropImage()"
+      [disabled]="profileService.savingProfilePhoto"
+    >
+      Confirm
+    </button>
+    } @if (!service.showImageCropper) {
+    <button
+      mat-flat-button
+      color="accent"
+      (click)="service.savePhoto(data.profile, data.option)"
+      [disabled]="profileService.savingProfilePhoto"
+    >
+      <div class="flex justify-content-center gap-10px">
+        <span>
+          {{ profileService.savingProfilePhoto ? "Saving" : "Save" }}
+        </span>
+
+        @if (profileService.savingProfilePhoto) {
+        <mat-spinner class="h-20px w-20px"></mat-spinner>
+        }
+      </div>
+    </button>
+    }
+  </div>
+  } }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-button
+    [disabled]="profileService.savingProfilePhoto"
+    (click)="service.closeClearDialog()"
+  >
+    Close
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,57 @@
+<form
+  [formGroup]="formService.form"
+  (ngSubmit)="onSubmitForm()"
+  autocomplete="off"
+>
+  @for (field of formService.formFields; track field.id) { @switch (field.type)
+  { @case (fieldTypes.DROPDOWN) {
+  <div class="mt-30px">
+    <app-select [field]="field"></app-select>
+  </div>
+  } @case (fieldTypes.DATE) {
+  <div class="mt-30px">
+    <app-datepicker
+      [field]="field"
+      [shouldResetControls]="shouldResetControls()"
+    ></app-datepicker>
+  </div>
+  } @case (fieldTypes.CHECKBOX) {
+  <div class="mt-10px">
+    <app-checkbox [field]="field"></app-checkbox>
+  </div>
+  } @default {
+  <app-input
+    [field]="field"
+    [shouldResetControls]="shouldResetControls()"
+  ></app-input>
+  } } } @if (formType() === formTypes.SIGNIN) {
+  <div class="mt-15px text-center">
+    <button type="button" mat-button (click)="prepareForgotPasswordForm.emit()">
+      Forgot Password?
+    </button>
+  </div>
+  } @if (formType() === formTypes.FORGOT_PASSWORD) {
+  <div class="mt-15px text-center">
+    <button type="button" mat-button (click)="prepareSignInForm.emit()">
+      Back to Sign In
+    </button>
+  </div>
+  }
+
+  <mat-dialog-actions class="mt-20px" align="end">
+    <button
+      mat-button
+      mat-dialog-close
+      (click)="formService.reinitializeForm()"
+    >
+      Close
+    </button>
+    <button mat-button [disabled]="formService.form.invalid" type="submit">
+      @if (isLoading()) {
+      <mat-spinner color="h-20px w-20px"></mat-spinner>
+      } @else {
+      <span> {{ btnLabel() }} </span>
+      }
+    </button>
+  </mat-dialog-actions>
+</form>

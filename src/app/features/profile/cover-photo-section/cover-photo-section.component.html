@@ -1,0 +1,28 @@
+<div
+  class="cover-photo-section"
+  [ngStyle]="{
+    'background-image': 'url(' + profileService.profile.coverPhotoURL + ')'
+  }"
+>
+  @if (profileService.isMyProfile) { @if (profileService.savingCoverPhoto ||
+  profileService.updatingCoverPhoto) {
+  <div class="loader">
+    <mat-spinner color="accent" color="h-35px w-35px"></mat-spinner>
+  </div>
+  } @else { @if (!profileService.profile.coverPhotoURL) {
+  <div class="options">
+    <app-photo-upload-options
+      [profile]="profileService.profile"
+      [option]="pictureOptions.COVER_PHOTO"
+    ></app-photo-upload-options>
+  </div>
+  } @else {
+  <div class="cover-photo-actions">
+    <profile-photo-actions
+      [option]="pictureOptions.COVER_PHOTO"
+    ></profile-photo-actions>
+  </div>
+  } } }
+
+  <app-profile-photo-section></app-profile-photo-section>
+</div>

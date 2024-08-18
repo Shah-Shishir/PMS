@@ -1,0 +1,73 @@
+<mat-card appearance="outlined">
+  <mat-card-header
+    class="align-items-center justify-content-space-between p-16px"
+  >
+    <mat-card-title class="fs-16px">Hobbies</mat-card-title>
+    <div (click)="openHobbiesForm()" class="pointer">
+      <mat-icon class="fs-18px">edit</mat-icon>
+    </div>
+  </mat-card-header>
+  @if (profileService.isEditable.hobbies || hobbies()?.length) {
+  <mat-card-content>
+    @if (profileService.isEditable.hobbies) {
+    <mat-form-field class="w-100 fs-13px">
+      <mat-chip-grid
+        #chipGrid
+        aria-label="Enter new hobbies"
+        [formControl]="formControl"
+      >
+        @for (hobby of hobbies(); track hobby; let index = $index;) {
+        <mat-chip-row color="primary" (removed)="removeHobby(index)">
+          {{ hobby }}
+          <button matChipRemove aria-label="'remove ' + hobby">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        }
+        <div class="mt-10px"></div>
+        <input
+          placeholder="Add hobbies..."
+          [matChipInputFor]="chipGrid"
+          (matChipInputTokenEnd)="add($event)"
+        />
+      </mat-chip-grid>
+    </mat-form-field>
+    <div class="flex justify-content-end gap-10px mt-10px">
+      <button
+        class="fs-12px h-28px"
+        mat-flat-button
+        color="accent"
+        (click)="closeHobbiesForm()"
+        [disabled]="profileService.settingProfile"
+      >
+        Cancel
+      </button>
+      <button
+        class="fs-12px h-28px"
+        mat-flat-button
+        color="primary"
+        (click)="saveHobbies()"
+        [disabled]="profileService.settingProfile"
+      >
+        @if (profileService.settingProfile) {
+        <div class="flex gap-10px align-items-center p-10px">
+          <span>Saving</span>
+          <mat-spinner class="h-15px w-15px"></mat-spinner>
+        </div>
+        } @else {
+        <span>Save</span>
+        }
+      </button>
+    </div>
+    } @else {
+    <mat-chip-set>
+      @for (hobby of hobbies(); track hobby) {
+      <mat-chip-row>
+        {{ hobby }}
+      </mat-chip-row>
+      }
+    </mat-chip-set>
+    }
+  </mat-card-content>
+  }
+</mat-card>

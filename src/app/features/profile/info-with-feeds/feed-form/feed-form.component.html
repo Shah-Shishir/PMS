@@ -1,0 +1,159 @@
+<mat-card class="feed-card">
+  <mat-card-content class="content">
+    <!-- Feed description -->
+    <textarea
+      rows="1"
+      placeholder="What's happening?"
+      (input)="adjustTextareaHeight($event)"
+      [(ngModel)]="profileService.feed.description"
+      [disabled]="profileService.savingFeed"
+    ></textarea>
+
+    <!-- <div>
+      {{ profileService.photosCount }}
+    </div> -->
+
+    <!-- Viewing photos with loaders -->
+    @if (profileService.photosCount) {
+    <div class="uploaded-photos">
+      @for (idx of [].constructor(profileService.photosCount); track $index) {
+      @if (profileService.uploadedPhotos[$index]) {
+      <div
+        class="uploaded-photo"
+        [ngStyle]="{
+          'background-image':
+            'url(' + profileService.uploadedPhotos[$index].url + ')'
+        }"
+      >
+        <div class="shadow">
+          <mat-icon
+            matTooltip="View"
+            (click)="viewFeedImage(profileService.uploadedPhotos[$index].url)"
+            >visibility</mat-icon
+          >
+          <mat-icon matTooltip="Remove" (click)="removeFeedImage($index)"
+            >delete</mat-icon
+          >
+        </div>
+      </div>
+      } @else {
+      <div class="placeholder">
+        <mat-spinner class="w-30px h-30px"></mat-spinner>
+      </div>
+      } }
+    </div>
+    }
+
+    <!-- Feeling -->
+    @if (profileService.feed.feeling) {
+    <div class="feeling-section" [class.inactive]="profileService.savingFeed">
+      <div>
+        <span class="label">Feeling - </span>
+        <span class="value">{{ profileService.feed.feeling }}</span>
+      </div>
+      <mat-icon (click)="removeFeeling()">close</mat-icon>
+    </div>
+    }
+
+    <!-- Check In -->
+    @if (profileService.feed.checkIn) {
+    <div class="feeling-section" [class.inactive]="profileService.savingFeed">
+      <div>
+        <span class="label">At - </span>
+        <span class="value">{{ profileService.feed.checkIn }}</span>
+      </div>
+      <mat-icon (click)="removeCheckIn()">close</mat-icon>
+    </div>
+    }
+  </mat-card-content>
+
+  <!-- Feed actions -->
+  <mat-card-actions class="actions">
+    <div class="post-options">
+      <button
+        mat-button
+        (click)="openEmoticonDialog()"
+        [disabled]="profileService.savingFeed"
+      >
+        <mat-icon>mood</mat-icon> Feeling
+      </button>
+      <button
+        mat-button
+        (click)="selectPhotos()"
+        [disabled]="profileService.savingFeed"
+      >
+        <mat-icon>image</mat-icon> Photos
+      </button>
+      <input
+        type="file"
+        multiple="true"
+        id="multiple-file-input"
+        hidden="true"
+        accept="image/*"
+        (change)="profileService.onUploadFeedPhotos($event)"
+      />
+      <button
+        mat-button
+        (click)="isLocationInputOpened = !isLocationInputOpened"
+        [disabled]="profileService.savingFeed"
+      >
+        <mat-icon>location_on</mat-icon> Check In
+      </button>
+    </div>
+    <div class="privacy-form">
+      <button
+        class="value"
+        mat-button
+        [matMenuTriggerFor]="privacyMenu"
+        [disabled]="profileService.savingFeed"
+      >
+        <mat-icon>
+          {{
+            profileService.feed.privacyId == 1
+              ? "public"
+              : profileService.feed.privacyId == 2
+              ? "group"
+              : "lock"
+          }}
+        </mat-icon>
+        {{ profileService.feed.privacyId | privacyType }}
+      </button>
+      <mat-menu class="options" #privacyMenu="matMenu">
+        @for (option of privacyOptions; track option.id) {
+        <button
+          mat-menu-item
+          (click)="profileService.feed.privacyId = option.id"
+        >
+          <mat-icon class="icon"> {{ option.icon }} </mat-icon>
+          <span [class.fw-600]="profileService.feed.privacyId === option.id">
+            {{ option.label }}
+          </span>
+        </button>
+        }
+      </mat-menu>
+    </div>
+    <button
+      mat-flat-button
+      color="accent"
+      (click)="publishFeed()"
+      [disabled]="profileService.savingFeed || profileService.uploadingPhotos"
+    >
+      {{ profileService.savingFeed ? "Publishing" : "Publish" }}
+    </button>
+  </mat-card-actions>
+
+  <!-- Location Input -->
+  @if (isLocationInputOpened) {
+  <div class="fade-in">
+    <mat-form-field class="fs-13px w-100" appearance="fill" floatLabel="always">
+      <mat-label>Enter any location...</mat-label>
+      <input
+        matInput
+        placeholder="Bir Uttam AK Khandakar Road, Mohakhali C/A, Dhaka 1212, Bangladesh"
+        [(ngModel)]="enteredLocation"
+        (keydown)="onKeyDown($event)"
+      />
+    </mat-form-field>
+  </div>
+  }
+</mat-card>

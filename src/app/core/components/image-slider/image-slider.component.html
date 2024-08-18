@@ -1,0 +1,25 @@
+<div class="image-viewer">
+  <div class="wrapper">
+    <div class="close-btn buttons" (click)="onCloseSlider.emit()">
+      <mat-icon>close</mat-icon>
+    </div>
+    <div class="prev-btn buttons" (click)="goToPreviousImage()">
+      <mat-icon>chevron_left</mat-icon>
+    </div>
+    <div
+      class="current-image"
+      [class.loading]="isLoading"
+      [ngStyle]="{
+        'background-image': 'url(' + currentImageUrl() + ')',
+        'background-size': backgroundSize
+      }"
+    >
+      @if (isLoading) {
+      <div class="spinner"></div>
+      }
+    </div>
+    <div class="next-btn buttons" (click)="goToNextImage()">
+      <mat-icon>chevron_right</mat-icon>
+    </div>
+  </div>
+</div>

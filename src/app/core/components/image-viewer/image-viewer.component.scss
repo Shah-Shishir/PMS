@@ -1,0 +1,18 @@
+mat-dialog-actions {
+  position: absolute;
+  top: -10px;
+  right: 0px;
+
+  mat-icon {
+    color: #000;
+  }
+}
+
+mat-dialog-content {
+  height: 750px;
+  width: 750px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  max-height: initial;
+}

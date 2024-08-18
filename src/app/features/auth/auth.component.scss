@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px);
+  flex-direction: column;
+  gap: 30px;
+
+  .manual-auth-section {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .auth-section {
+    .hint-text {
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: 500;
+
+      &.signin {
+      }
+
+      &.signup {
+      }
+    }
+  }
+
+  .connect-with {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  button {
+    height: 40px;
+    width: 200px;
+
+    img {
+      width: 20px;
+      vertical-align: middle;
+    }
+
+    span {
+      color: #1c1c4d;
+      margin-left: 10px;
+    }
+  }
+}

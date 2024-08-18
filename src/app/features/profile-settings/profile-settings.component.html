@@ -1,0 +1,100 @@
+<app-header
+  headerText="Profile Settings"
+  [pageType]="pageTypes.PROFILE"
+></app-header>
+
+<div class="wrapper">
+  <div>
+    <div [class.mb-8px]="profileService.isMyProfile">
+      <strong> Profile Privacy </strong>
+    </div>
+
+    @if (!profileService.isEditable.privacy) {
+    <div class="flex align-items-center justify-content-center gap-10px">
+      <span>
+        {{ profileService.profile.privacyId | privacyType }}
+      </span>
+
+      @if (!profileService.isEditable.privacy && profileService.isMyProfile) {
+      <mat-icon
+        class="pointer"
+        (click)="profileService.preparePrivacyForm()"
+        [class.disabled-icon]="
+          profileService.isEditable.birthday ||
+          profileService.isEditable.privacy
+        "
+        >edit</mat-icon
+      >
+      }
+    </div>
+    } @else { @if (profileService.isEditable.privacy &&
+    profileService.isMyProfile) {
+    <div
+      class="flex justify-content-center align-items-center mt-10px gap-20px"
+    >
+      <app-select [field]="profileService.field"></app-select>
+      <div class="close-icon">
+        <mat-icon
+          size="small"
+          class="pointer"
+          (click)="profileService.isEditable.privacy = false"
+          >close</mat-icon
+        >
+      </div>
+    </div>
+    } }
+  </div>
+
+  <div>
+    <button
+      class="w-125px mr-5px"
+      mat-raised-button
+      color="accent"
+      (click)="saveProfile()"
+      [disabled]="
+        (!profileService.isEditable.birthday &&
+          !profileService.isEditable.privacy) ||
+        profileService.settingProfile
+      "
+    >
+      @if (profileService.settingProfile && (!profileService.savingProfilePhoto
+      && !profileService.updatingProfilePhoto &&
+      !profileService.savingCoverPhoto && !profileService.updatingCoverPhoto) )
+      {
+      <mat-spinner class="h-25px w-25px"></mat-spinner>
+      } @else {
+      <span>Save Profile</span>
+      }
+    </button>
+
+    <button
+      class="ml-5px"
+      mat-raised-button
+      color="accent"
+      (click)="signOutUser()"
+      [disabled]="
+        profileService.settingProfile || profileService.savingProfilePhoto
+      "
+    >
+      Sign Out
+    </button>
+
+    <button
+      class="ml-5px w-135px"
+      mat-raised-button
+      color="warn"
+      (click)="openConfirmProfileDeletionDialog()"
+      [disabled]="
+        profileService.settingProfile ||
+        profileService.savingProfilePhoto ||
+        profileService.deletingProfile
+      "
+    >
+      @if (profileService.deletingProfile) {
+      <mat-spinner class="h-25px w-25px"></mat-spinner>
+      } @else {
+      <span>Delete Profile</span>
+      }
+    </button>
+  </div>
+</div>

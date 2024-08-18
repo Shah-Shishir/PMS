@@ -1,0 +1,67 @@
+<app-header headerText="Profiles" [pageType]="pageTypes.PROFILES"></app-header>
+
+<div class="toggle-section">
+  <mat-slide-toggle
+    color="primary"
+    (change)="profileService.filterWithFriends()"
+    [checked]="profileService.showFriends"
+  >
+    <span class="ml-10px fw-500">Show Friends Only</span>
+  </mat-slide-toggle>
+</div>
+
+<div
+  class="profiles-section"
+  [ngStyle]="{
+    'justify-content':
+      profileService.loadingProfiles || !profileService.profiles.length
+        ? 'center'
+        : ''
+  }"
+>
+  @if (profileService.loadingProfiles) {
+  <app-loader
+    label="Loading {{ profileService.showFriends ? 'Friends' : 'Profiles' }}"
+    [height]="35"
+    [width]="35"
+  ></app-loader>
+  } @else { @if(profileService.profiles.length) {
+  <div class="mt-90px">
+    @for (profile of profileService.profiles; track profile) {
+    <div class="profile-section">
+      @if (profile.photoURL) {
+      <div
+        class="profile-photo"
+        [ngStyle]="{
+          'background-image': 'url(' + profile.photoURL + ')'
+        }"
+      ></div>
+      } @else {
+      <app-image-placeholder
+        [profile]="profile"
+        [height]="50"
+        [width]="50"
+        [fontSize]="14"
+      ></app-image-placeholder>
+      }
+
+      <div class="profile-dn" routerLink="/profile/{{ profile.uid }}">
+        {{ profile.firstName }} {{ profile.lastName }}
+
+        @if (profile.uid === appService.userId) {
+        <strong> (You) </strong>
+        }
+      </div>
+    </div>
+    }
+  </div>
+  } @else {
+  <div>
+    <strong>
+      {{
+        profileService.showFriends ? "No friends found" : "No profiles found"
+      }}
+    </strong>
+  </div>
+  } }
+</div>

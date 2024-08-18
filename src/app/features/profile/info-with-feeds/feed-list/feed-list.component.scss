@@ -1,0 +1,81 @@
+.feed-card {
+  margin-bottom: 20px;
+
+  .user-avatar {
+    background-size: cover;
+    height: 30px;
+    width: 30px;
+    margin-bottom: 10px;
+  }
+
+  mat-card-content {
+    .see-more-btn {
+      margin-left: 4px;
+      cursor: pointer;
+      transition: 0.4s;
+
+      &:hover {
+        color: #1029af;
+      }
+    }
+
+    .uploaded-photos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 5px;
+
+      .uploaded-photo {
+        margin-top: 5px;
+        height: 150px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        cursor: pointer;
+        position: relative;
+        border-radius: 6px;
+
+        &.counter {
+          background-color: #444;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 40px;
+          color: #fff;
+        }
+      }
+
+      .placeholder {
+        border-radius: 6px;
+        height: 100px;
+        background-color: #eaeaea;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  mat-card-actions {
+    margin-top: 8px;
+    margin-left: 10px;
+    gap: 5px;
+
+    mat-icon {
+      cursor: pointer;
+      font-size: 18px;
+
+      &.liked {
+        color: #0F6FEF;
+      }
+
+      &.comment {
+        color: #000;
+      }
+    }
+  }
+}
+
+.blue {
+  color: #1029af;
+}

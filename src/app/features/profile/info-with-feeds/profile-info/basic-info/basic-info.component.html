@@ -1,0 +1,190 @@
+<div class="basic-info">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Basic Info</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- Address Section -->
+      <div class="address-section">
+        <div class="body">
+          @if (service.hasValidAddress(service.profile.address!) &&
+          !service.isEditable.address) {
+          <div class="address-text">
+            @if (isLongAddress) {
+            <div class="flex align-items-center gap-10px">
+              <mat-icon>home</mat-icon>
+              From {{ service.profile.address?.longDescription }}
+            </div>
+            } @else {
+            <div class="flex align-items-center gap-10px">
+              <mat-icon>home</mat-icon>
+              {{ service.profile.address! | addressFormatter }}
+            </div>
+            }
+
+            <div
+              (click)="this.service.isEditable.address = true"
+              class="edit-icon"
+            >
+              <mat-icon matTooltip="Edit Address">edit</mat-icon>
+            </div>
+          </div>
+          } @else { @if (service.isEditable.address) {
+          <div class="address-form" [formGroup]="profileInfoForm">
+            @if (isLongAddress) {
+            <div>
+              <mat-form-field
+                class="w-100"
+                appearance="outline"
+                floatLabel="always"
+              >
+                <mat-label>Long Address</mat-label>
+                <input matInput formControlName="longDescription" />
+              </mat-form-field>
+            </div>
+            } @else {
+            <div class="seq-form">
+              <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Country</mat-label>
+                <input matInput formControlName="country" />
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>State</mat-label>
+                <input matInput formControlName="state" />
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Division</mat-label>
+                <input matInput formControlName="division" />
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city" />
+              </mat-form-field>
+            </div>
+            }
+
+            <div class="actions">
+              <button
+                mat-flat-button
+                color="accent"
+                [disabled]="service.settingProfile"
+                (click)="service.isEditable.address = false"
+              >
+                Cancel
+              </button>
+              <button
+                mat-flat-button
+                color="primary"
+                [disabled]="
+                  (isLongAddress &&
+                    !profileInfoForm.value.longDescription?.length) ||
+                  (!isLongAddress &&
+                    !profileInfoForm.value.country?.length &&
+                    !profileInfoForm.value.state?.length &&
+                    !profileInfoForm.value.city?.length) ||
+                  service.settingProfile
+                "
+                (click)="saveAddress()"
+              >
+                @if (service.settingProfile) {
+                <div class="flex gap-10px align-items-center p-10px">
+                  <span>Saving</span>
+                  <mat-spinner class="h-15px w-15px"></mat-spinner>
+                </div>
+                } @else {
+                <span>Save</span>
+                }
+              </button>
+            </div>
+          </div>
+          } @else {
+          <div class="add-address" (click)="toggleAddressEditor()">
+            Add your address ...
+          </div>
+          } }
+        </div>
+      </div>
+
+      <!-- Gender Section -->
+      <div class="flex align-items-center mt-20px">
+        @if (service.profile.genderId == 1) {
+        <img
+          src="/assets/icons/male.png"
+          height="20"
+          width="20"
+          class="mr-10px"
+        />
+        } @else {
+        <img
+          src="/assets/icons/female.png"
+          height="20"
+          width="20"
+          class="mr-10px"
+        />
+        }
+
+        {{ service.profile.genderId == 1 ? "Male" : "Female" }}
+      </div>
+
+      <!-- Birthday Section -->
+      <div class="birthday-section">
+        <div class="flex align-items-center gap-10px">
+          <mat-icon>cake</mat-icon>
+
+          @if (!service.isEditable.birthday) {
+          <div>
+            {{ service.profile.dob | date : "MMMM d, y" }}
+          </div>
+          }
+        </div>
+
+        @if (service.isEditable.birthday) {
+        <form class="w-100 my-10px" [formGroup]="formService.form">
+          <app-datepicker [field]="field"></app-datepicker>
+        </form>
+        } @if (!service.isEditable.birthday) {
+        <div class="edit-icon" (click)="prepareBirthdayForm()">
+          <mat-icon matTooltip="Edit Birthday">edit</mat-icon>
+        </div>
+        }
+      </div>
+
+      @if (service.isEditable.birthday) {
+      <div class="birthday-actions">
+        <button
+          mat-flat-button
+          color="accent"
+          [disabled]="service.settingProfile"
+          (click)="service.isEditable.birthday = false"
+        >
+          Cancel
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="formService.form.invalid || service.settingProfile"
+          (click)="saveBirthday()"
+        >
+          @if (service.settingProfile) {
+          <div class="flex gap-10px align-items-center p-10px">
+            <span>Saving</span>
+            <mat-spinner class="h-15px w-15px"></mat-spinner>
+          </div>
+          } @else {
+          <span>Save</span>
+          }
+        </button>
+      </div>
+      }
+
+      <!-- Email Section -->
+      <div class="flex align-items-center gap-10px mt-20px">
+        <mat-icon>mail</mat-icon>
+        {{ service.profile.email }}
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,10 @@
+<div class="spinner">
+  @if (label()) {
+  <strong> {{ label() }} ... </strong>
+  }
+
+  <mat-spinner
+    [color]="color()"
+    class="h-{{ height() }}px w-{{ width() }}px"
+  ></mat-spinner>
+</div>

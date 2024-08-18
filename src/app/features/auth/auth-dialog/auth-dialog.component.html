@@ -1,0 +1,26 @@
+<h2
+  mat-dialog-title
+  class="text-center mb-0px"
+  style="background-color: #eaeaea"
+>
+  {{ headerTitle }}
+</h2>
+<mat-dialog-content>
+  @if (formService.isFormLoading) {
+  <div class="my-50px">
+    <app-loader label="Loading form" [height]="35" [width]="35"></app-loader>
+  </div>
+  } @else {
+  <div class="h-100">
+    <app-form
+      [formType]="data.mode"
+      [headerTitle]="headerTitle"
+      [btnLabel]="btnLabel"
+      [isLoading]="authService.isAuthLoading || authService.settingUserData"
+      (submitForm)="onAuthFormSubmit($event)"
+      (prepareSignInForm)="prepareSignInForm()"
+      (prepareForgotPasswordForm)="prepareForgotPasswordForm()"
+    ></app-form>
+  </div>
+  }
+</mat-dialog-content>

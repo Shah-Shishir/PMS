@@ -1,0 +1,30 @@
+<div mat-dialog-title class="text-center">{{ headerTitle }}</div>
+
+<mat-dialog-content>
+  @if (data.isEducation) {
+  <div class="options">
+    @for (type of types; track type.id) {
+    <div
+      class="chip"
+      [class.active]="type.id === selectedTypeId"
+      [class.inactive]="!data.isAdd"
+      (click)="selectType(type)"
+      tabindex="-1"
+    >
+      {{ type.name }}
+    </div>
+    }
+  </div>
+
+  <div class="mt-30px"></div>
+  }
+
+  <app-form
+    [formType]="formTypes.ADD_UPDATE_EDUCATION"
+    [headerTitle]="headerTitle"
+    [btnLabel]="btnLabel"
+    [isLoading]="profileService.savingEducationProfession"
+    [shouldResetControls]="shouldResetControls"
+    (submitForm)="onEducationFormSubmit($event)"
+  ></app-form>
+</mat-dialog-content>

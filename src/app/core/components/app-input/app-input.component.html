@@ -1,0 +1,26 @@
+<div [formGroup]="formService.form">
+  <mat-form-field
+    class="w-100 mt-30px"
+    appearance="outline"
+    floatLabel="always"
+  >
+    <mat-label>
+      {{ field().label }}
+    </mat-label>
+    <input
+      autocomplete="off"
+      matInput
+      [formControl]="formControl"
+      [type]="field().type! | inputType"
+    />
+    @if (shouldShowEye) {
+    <mat-icon matSuffix (click)="toggleInput()">
+      <img
+        class="mr-10px"
+        [src]="isVisible ? visibleIconPath : invisibleIconPath"
+      />
+    </mat-icon>
+    }
+    <mat-error [innerHTML]="formService.formErrors[field().name]"></mat-error>
+  </mat-form-field>
+</div>

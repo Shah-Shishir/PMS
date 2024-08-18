@@ -1,0 +1,137 @@
+<div class="mt-20px"></div>
+
+@for (feed of profileService.profile.feeds; let index = $index; track $index) {
+<mat-card class="feed-card" appearance="outlined">
+  <mat-card-header class="flex align-items-center">
+    <div
+      mat-card-avatar
+      class="user-avatar"
+      [ngStyle]="{
+        'background-image': 'url(' + profileService.profile.photoURL + ')'
+      }"
+    ></div>
+    <mat-card-title class="fs-14px">
+      <span class="blue">
+        {{ profileService.profile.firstName }}
+        {{ profileService.profile.lastName }}
+      </span>
+
+      @if (feed.feeling) {
+      <span>
+        is feeling <span class="blue">{{ feed.feeling }}</span>
+      </span>
+      } @if (feed.checkIn) {
+      <span>
+        at <span class="blue">{{ feed.checkIn }}</span>
+      </span>
+      } @if ((!feed.feeling && !feed.checkIn && !feed.description) &&
+      feed.photos.length > 0) { uploaded
+      <span class="blue"
+        >{{ feed.photos.length }}
+        {{ feed.photos.length == 1 ? "photo" : "photos" }}</span
+      >
+      }
+    </mat-card-title>
+    <mat-card-subtitle class="fs-13px flex gap-10px">
+      <div class="mt-6px">
+        {{ feed.createdAt | timeDiffText }}
+      </div>
+      <div class="h-28px" [matMenuTriggerFor]="privacyMenu">
+        @if (profileService.updatingPrivacy && (profileService.updatingFeedIndex
+        === index)) {
+        <mat-spinner class="mt-3px ml-5px h-18px w-18px"></mat-spinner>
+        } @else {
+        <mat-icon
+          class="mt-4px off-black fs-18px pointer"
+          matTooltip="{{ feed.privacyId | privacyType }}"
+        >
+          {{ feed.privacyId | privacyIcon }}
+        </mat-icon>
+        }
+        <mat-menu #privacyMenu="matMenu">
+          @for (option of privacyOptions; track option.id) {
+          <button
+            mat-menu-item
+            (click)="profileService.updateFeedPrivacy(index, option.id)"
+          >
+            <mat-icon class="icon"> {{ option.icon }} </mat-icon>
+            <span [class.fw-600]="feed.privacyId === option.id">
+              {{ option.label }}
+            </span>
+          </button>
+          }
+        </mat-menu>
+      </div>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      {{
+        feed.isExpanded ? feed.description : feed.description.substring(0, 500)
+      }}
+
+      @if (!feed.isExpanded && feed.description.length > 500) {
+      <span class="see-more-btn" (click)="feed.isExpanded = !feed.isExpanded">
+        <b> See more... </b>
+      </span>
+      }
+    </div>
+
+    @if (feed.photos.length) {
+    <div class="uploaded-photos">
+      <div
+        class="uploaded-photo"
+        [ngStyle]="{
+          'background-image': 'url(' + feed.photos[0].url + ')'
+        }"
+        (click)="openImageSlider(feed.photos, 0)"
+      ></div>
+
+      @if (feed.photos.length >= 2) {
+      <div
+        class="uploaded-photo"
+        [ngStyle]="{
+          'background-image': 'url(' + feed.photos[1].url + ')'
+        }"
+        (click)="openImageSlider(feed.photos, 1)"
+      ></div>
+      } @if (feed.photos.length == 3) {
+      <div
+        class="uploaded-photo"
+        [ngStyle]="{
+          'background-image': 'url(' + feed.photos[2].url + ')'
+        }"
+        (click)="openImageSlider(feed.photos, 2)"
+      ></div>
+      } @else if (feed.photos.length >= 3) {
+      <div
+        class="uploaded-photo counter"
+        (click)="openImageSlider(feed.photos, 2)"
+      >
+        +{{ feed.photos.length - 2 }}
+      </div>
+      }
+    </div>
+    }
+  </mat-card-content>
+  <mat-card-actions class="gap-20px">
+    <div class="flex" (click)="likeUnlikeFeed(index)">
+      <mat-icon [class.liked]="isLiked(feed)" matTooltip="Like">thumb_up</mat-icon>
+
+      @if (feed.likes.count > 0) {
+        <span class="fw-600 relative bottom-2px">
+          {{ feed.likes.count }}
+        </span>
+      }
+    </div>
+    <div class="relative top-2px">
+      <mat-icon class="comment" matTooltip="Comment">mode_comment</mat-icon>
+    </div>
+  </mat-card-actions>
+</mat-card>
+} @if (isOpenSlider && images.length) {
+<app-image-slider
+  [images]="images"
+  (onCloseSlider)="closeSlider()"
+></app-image-slider>
+}

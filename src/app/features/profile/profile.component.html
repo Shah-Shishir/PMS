@@ -1,0 +1,14 @@
+<app-header headerText="Profile" [pageType]="pageTypes.PROFILE"></app-header>
+
+@if (profileService.loadingProfile) {
+<app-loader label="Loading Profile" [height]="35" [width]="35"></app-loader>
+} @else {
+<!-- Cover photo section with Profile photo -->
+<profile-cover-photo-section></profile-cover-photo-section>
+
+<!-- Show Name with Username -->
+<profile-name-section></profile-name-section>
+
+<!-- Profile info with feeds -->
+<profile-info-with-feeds></profile-info-with-feeds>
+}

@@ -1,0 +1,49 @@
+<div class="actions">
+  @if ((profileService.profile.photoURL && (option() == options.PROFILE_PHOTO))
+  || (profileService.profile.coverPhotoURL && (option() ==
+  options.COVER_PHOTO))) {
+  <mat-icon
+    class="mr-5px"
+    matTooltip="View {{ tooltipText }}"
+    (click)="viewPhoto()"
+    >visibility</mat-icon
+  >
+  }
+
+  <mat-icon
+    class="mr-5px"
+    matTooltip="Update {{ tooltipText }}"
+    [matMenuTriggerFor]="pictureUpdateMenu"
+    >edit</mat-icon
+  >
+  <mat-menu #pictureUpdateMenu="matMenu" class="picture-update-menu">
+    <label mat-menu-item class="picture-input-label" for="photo-action-input"
+      >Upload from a Computer</label
+    >
+    <input
+      type="file"
+      hidden="true"
+      id="photo-action-input"
+      accept="image/*"
+      (change)="
+        profileService.onPictureChange(
+          $event,
+          profileService.profile,
+          option(),
+          true
+        )
+      "
+    />
+    <button mat-menu-item (click)="openWebcamDialog()">Take a photo</button>
+  </mat-menu>
+
+  @if ((profileService.profile.photoURL && (option() == options.PROFILE_PHOTO))
+  || (profileService.profile.coverPhotoURL && (option() ==
+  options.COVER_PHOTO))) {
+  <mat-icon
+    matTooltip="Remove {{ tooltipText }}"
+    (click)="openConfirmPictureDeletionDialog()"
+    >delete</mat-icon
+  >
+  }
+</div>

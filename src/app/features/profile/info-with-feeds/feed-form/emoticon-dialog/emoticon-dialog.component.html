@@ -1,0 +1,20 @@
+<div class="content-wrapper">
+  <mat-form-field class="w-100 mb-20px fs-13px" floatLabel="always">
+    <mat-label>Search Feelings</mat-label>
+    <input
+      matInput
+      placeholder="Ex. Excited 🤩"
+      (input)="searchFeelings($event)"
+    />
+  </mat-form-field>
+
+  <div class="feelings-wrapper">
+    @for (item of filteredFeelings; track $index) {
+    <button class="menu-btn" mat-button [mat-dialog-close]="item">
+      {{ item }}
+    </button>
+    } @if (!filteredFeelings.length) {
+    <div>No result found.</div>
+    }
+  </div>
+</div>

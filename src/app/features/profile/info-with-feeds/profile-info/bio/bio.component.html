@@ -1,0 +1,56 @@
+<div class="bio">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Bio</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (service.profile.bio && !service.isEditable.bio) {
+      <div class="bio-text">
+        {{ service.profile.bio }}
+
+        <div (click)="this.service.isEditable.bio = true">
+          <mat-icon matTooltip="Edit Bio">edit</mat-icon>
+        </div>
+      </div>
+      } @else { @if (service.isEditable.bio) {
+      <div class="bio-form" [formGroup]="profileInfoForm">
+        <textarea maxlength="100" formControlName="bio"></textarea>
+        <div class="length-indicator">
+          {{ profileInfoForm.value.bio?.length }}/100
+        </div>
+        <div class="actions">
+          <button
+            mat-flat-button
+            color="accent"
+            (click)="toggleBioEditor()"
+            [disabled]="service.settingProfile"
+          >
+            Cancel
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            [disabled]="
+              !profileInfoForm.value.bio?.length || service.settingProfile
+            "
+            (click)="saveBio()"
+          >
+            @if (service.settingProfile) {
+            <div class="flex gap-10px align-items-center p-10px">
+              <span>Saving</span>
+              <mat-spinner class="h-15px w-15px"></mat-spinner>
+            </div>
+            } @else {
+            <span>Save</span>
+            }
+          </button>
+        </div>
+      </div>
+      } @else {
+      <div class="add-bio" (click)="toggleBioEditor()">
+        Add a bio (100 characters)
+      </div>
+      } }
+    </mat-card-content>
+  </mat-card>
+</div>

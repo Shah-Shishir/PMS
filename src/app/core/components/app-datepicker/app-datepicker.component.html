@@ -1,0 +1,19 @@
+@if (field()) {
+<div [formGroup]="formService.form">
+  <mat-form-field class="w-100" appearance="outline" floatLabel="always">
+    <mat-label>
+      {{ field().label }}
+    </mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      [formControl]="formControl"
+      [min]="minDate"
+      [max]="maxDate"
+    />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error [innerHTML]="formService.formErrors[field().name]"></mat-error>
+  </mat-form-field>
+</div>
+}
